@@ -16,7 +16,7 @@ jobs:
       - name: Checkout common-entities
         uses: actions/checkout@v3
         with:
-          repository: sangamsehra/common-entities
+          repository: sangsehra/common-entities
           path: common-entities
 
       - name: Set up Java 21
