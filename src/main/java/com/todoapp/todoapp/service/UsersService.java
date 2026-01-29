@@ -1,15 +1,14 @@
 package com.todoapp.todoapp.service;
 
+import com.entities.common.common_entities.UserService.UserDetails;
 import com.todoapp.todoapp.Entities.Users;
-import com.todoapp.todoapp.POJO.User;
 import com.todoapp.todoapp.Repository.UserRepository;
 import com.todoapp.todoapp.utils.PasswordUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,20 +18,20 @@ public class UsersService {
 
     private final UserRepository userRepository;
     private final PasswordUtil passwordUtil;
-    public void createUser(User user){
+    public void createUser(UserDetails user){
         Users userEntity = createUserEntity(user);
         userRepository.save(userEntity);
         log.info("user created");
     }
 
-    public Users createUserEntity(User user){
+    public Users createUserEntity(UserDetails user){
         Users userRequest = new Users();
         userRequest.setName(user.getName());
         userRequest.setPassword(passwordUtil.encryptPassword(user.getPassword()));
         return userRequest;
     }
 
-    public String userlogin(User user){
+    public String userlogin(UserDetails user){
         Optional<Users> optionalUser = userRepository.findByName(user.getName());
         Users existingUser = null;
         if(optionalUser.isPresent()){
@@ -46,5 +45,12 @@ public class UsersService {
 
     public Users findByUsername(String username) {
         return userRepository.findByName(username).get();
+    }
+
+    public List<UserDetails> getUsers() {
+        List<Users> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDetails(user.getName(), null))
+                .toList();
     }
 }

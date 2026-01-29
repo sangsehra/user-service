@@ -1,9 +1,9 @@
 package com.todoapp.todoapp.Entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
