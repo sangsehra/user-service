@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout user-service
         uses: actions/checkout@v3
+
+      - name: Checkout common-entities
+        uses: actions/checkout@v3
+        with:
+          repository: sangamsehra/common-entities
+          path: common-entities
 
       - name: Set up Java 21
         uses: actions/setup-java@v3
@@ -20,10 +26,10 @@ jobs:
           java-version: '21'
 
       - name: Build common entities
-        working-directory: ../common-entities
+        working-directory: common-entities
         run: mvn clean install -DskipTests
 
-      - name: Build JAR
+      - name: Build user service
         run: mvn clean package -DskipTests
 
       - name: Login to Docker Hub
@@ -34,4 +40,3 @@ jobs:
 
       - name: Push Docker Image
         run: docker push sangamsehra/user-service:latest
-
