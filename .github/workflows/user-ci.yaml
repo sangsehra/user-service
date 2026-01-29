@@ -20,9 +20,8 @@ jobs:
           java-version: '21'
 
       - name: Build common entities
-          run: | 
-            cd ../common-entities
-            mvn clean install -DskipTests
+        working-directory: ../common-entities
+        run: mvn clean install -DskipTests
 
       - name: Build JAR
         run: mvn clean package -DskipTests
